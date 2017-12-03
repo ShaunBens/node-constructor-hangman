@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/ShaunBens/node-constructor-hangman#readme",
   "dependencies": {
-    "inquirer": "^4.0.1"
+    "inquirer": "^4.0.1",
+    "is-letter": "^1.1.1",
+    "prompt": "^1.0.0"
   }
 }
