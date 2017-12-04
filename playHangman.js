@@ -1,5 +1,6 @@
 var inquirer = require("inquirer");
 var isLetter = require("is-letter");
+var chalk = require("chalk");
 var Word = require("./word.js");
 
 
@@ -15,9 +16,9 @@ var currentWord;
 startGame();
 // Build a starting point function for the game to begin
 function startGame() {
-    console.log("-----------------------------" + "\n" +
+    console.log(chalk.blueBright.bgBlack("-----------------------------" + "\n" +
         "Astronomer's Paradise Hangman" + "\n" +
-        "-----------------------------");
+        "-----------------------------"));
 
     // Clears lettersGuessed before a new game begins
     if (lettersGuessed.length > 0) {
@@ -30,7 +31,7 @@ function startGame() {
         message: "Ready to Play?"
     }]).then(function(answer) {
         if (answer.play) {
-            console.log("\n" + "You get 10 turns to guess the right word." + "\n" + "Good Luck!");
+            console.log(chalk.whiteBright("\n" + "You get 10 turns to guess the right word." + "\n" + "Good Luck!"));
             newGame();
 
         }
@@ -70,7 +71,7 @@ function promptUser() {
     inquirer.prompt([{
             name: "chosenLetter",
             type: "input",
-            message: "Choose a letter",
+            message: (chalk.yellowBright("Choose a letter")),
             validate: function(value) {
                 if (isLetter(value)) {
                     return true;
@@ -100,28 +101,28 @@ function promptUser() {
             var found = currentWord.letterFound(letterReturned);
 
             if (found === 0) {
-                console.log("Wrong guess");
+                console.log(chalk.redBright("Wrong guess"));
 
                 remainingGuesses--;
 
                 console.log("Remaining Guesses: " + remainingGuesses);
                 console.log("-------------------------------" + "\n" +
                     currentWord.wordShow() + "\n" + "-------------------------------" + "\n" +
-                    "Letters Guessed: " + lettersGuessed);
+                    (chalk.cyanBright("Letters Guessed: ")) + lettersGuessed);
             }
             else {
-                console.log("You are correct!");
+                console.log(chalk.greenBright("You are correct!"));
 
                 if (currentWord.checkWord() === true) {
                     console.log("\n" + currentWord.wordShow() + "\n" +
-                        "---------- YOU WIN! ----------" + "\n" + "---------- Play again? ----------");
+                        (chalk.greenBright("---------- YOU WIN! ----------")) + "\n" + chalk.magentaBright("-------- Play again? ----------"));
 
                     return startGame();
                 }
                 else {
                     console.log("Remaining guesses: " + remainingGuesses + "\n" +
                         currentWord.wordShow() + "\n" + "-------------------------------" + "\n" +
-                        "Letters Guessed: " + lettersGuessed);
+                        chalk.cyanBright("Letters Guessed: " + lettersGuessed));
                 }
             }
 
@@ -130,11 +131,11 @@ function promptUser() {
                 promptUser();
             }
             else if (remainingGuesses === 0) {
-                console.log("\n" + "---------- GAME OVER ----------" + "\n" +
+                console.log(chalk.redBright.bgBlack("\n" + "---------- GAME OVER ----------" + "\n") +
                     "The word you were trying to guess was: " + currentWord.word + "\n" + "Play again?" + "\n");
                 return startGame();
             }
-            else if () {
+            else {
                 console.log("You've guessed that letter already, try again.");
                 promptUser();
             }
